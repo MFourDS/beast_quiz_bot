@@ -22,6 +22,7 @@ public class User {
         this(id, telegramId, "", "", 0);
     }
 
+
     public User(int id, long telegramId, String username, String surname, int highestScore) {
         if (id <= 0) throw new IllegalArgumentException("User id must be positive");
         if (telegramId <= 0) throw new IllegalArgumentException("Telegram id  must be positive");

@@ -25,7 +25,6 @@ public class Quiz {
     private int score;
     private QuizStatus status;
 
-
     /** Конструктор создает квиз
      *
      * @param questions список подготовленных вопросов

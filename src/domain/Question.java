@@ -36,7 +36,6 @@ public record Question(int id, String text, List<String> answers, int correctAns
         return List.copyOf(answers);
     }
 
-
     /**Проверяет, является ли данный индекс правильным ответом
      *
      * @param ansIndex индекс выбранного ответа
