@@ -50,5 +50,4 @@ public record Question(int id, String text, List<String> answers, int correctAns
 
         return ansIndex == correctAnswerIndex;
     }
-
 }
