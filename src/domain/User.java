@@ -1,20 +1,40 @@
 package domain;
 
+/**Domain - Юзер*/
 public class User {
-    private final int id;
+    /**Свой идентификатор пользователя*/
+    final int id;
+    /**Идентификатор тг: 10 значное число или меньше, уникальное для любого пользователя и бота*/
+    final long telegramId;
+    /**Имя пользователя (имя с @)*/
     private String username;
+    /**Ник пользователя (без @)*/
     private String surname;
+    /**Наибольший счет*/
     private int highestScore;
 
-    public User(int id) {
-        this.id = id;
-        this.username = "";
-        this.surname = "";
-        this.highestScore = 0;
+    /** Перегруженный конструктор создает объект и проверяет корректность telegramId и id.
+     * Можно на этих полях или на всех
+     *
+     * @throws IllegalArgumentException если id или telegramId неверные
+     */
+    public User(int id, long telegramId) {
+        this(id, telegramId, "", "", 0);
     }
 
-    public int getId() {
-        return id;
+
+    public User(int id, long telegramId, String username, String surname, int highestScore) {
+        if (id <= 0) throw new IllegalArgumentException("User id must be positive");
+        if (telegramId <= 0) throw new IllegalArgumentException("Telegram id  must be positive");
+        if (highestScore < 0) {
+            throw new IllegalArgumentException("Highest score cannot be negative");
+        }
+
+        this.id = id;
+        this.telegramId = telegramId;
+        this.username = username;
+        this.surname = surname;
+        this.highestScore = highestScore;
     }
 
     public String getUsername() {
@@ -37,8 +57,10 @@ public class User {
         this.surname = surname;
     }
 
+    /**Обновляет максимальный счет пользователя
+     * Берет максимум из двух
+     */
     public void updateHighestScore(int score) {
         this.highestScore = Math.max(this.highestScore, score);
     }
-
 }
