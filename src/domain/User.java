@@ -33,9 +33,9 @@ public class User {
 
     public User(int id, long telegramId, String username, String nickname, int totalScore) {
         if (id <= 0) throw new IllegalArgumentException("User id must be positive");
-        if (telegramId <= 0) throw new IllegalArgumentException("Telegram id  must be positive");
+        if (telegramId <= 0) throw new IllegalArgumentException("Telegram id must be positive");
         if (totalScore < 0) {
-            throw new IllegalArgumentException("Highest score cannot be negative");
+            throw new IllegalArgumentException("Score cannot be negative");
         }
 
         this.id = id;
@@ -67,6 +67,10 @@ public class User {
     }
 
     public void updateTotalScore(int score) {
+        if (score < 0) {
+            throw new IllegalArgumentException("Score cannot be negative");
+        }
+
         this.totalScore = Math.max(this.totalScore, score);
     }
 
