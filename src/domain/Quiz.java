@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Set;
 
 /**<h6>Класс отвечает за статус квиза</h6>
  * <h7>Это защита от начала квиза после того как он закончен и отправки ответа в рандомный момент и тп.</h7>
@@ -9,11 +10,13 @@ import java.util.List;
  *     <li>NOT_STARTED -> IN_PROGRESS</li>
  *     <li>IN_PROGRESS -> FINISHED</li>
  *  <ul>
+ *  Статус прервано добавлен
  */
 enum QuizStatus {
     NOT_STARTED,
     IN_PROGRESS,
-    FINISHED
+    FINISHED,
+    ABORTED
 }
 
 /**Domain - Квиз*/
@@ -80,28 +83,32 @@ public class Quiz {
      * Она создает копию текущего вопроса и сверят у него ответ.
      * Прибавляет очки за каждый правильный ответ
      *
-     * @param answer индекс в списке вопросов
+     * @param selectedAnswers индексы в списке вопросов
      * @throws IllegalStateException если статус квиза не IN_PROGRESS
-     * @return правильный вопрос или нет
+     * @return класс с правильным ответом и данными ответами
      */
-    public boolean submitAnswer(int answer) {
+    public AnswerResult submitAnswer(Set<Integer> selectedAnswers) {
         if (status != QuizStatus.IN_PROGRESS) {
             throw new IllegalStateException("Quiz is not in progress");
         }
 
         Question question = questions.get(currentQuestionIndex);
 
-        boolean correct = question.isCorrectAnswer(answer);
+        boolean correct = question.isCorrectAnswer(Set.copyOf(selectedAnswers));
 
         if (correct) {
-            score += calkScore();
+            score += calcScore();
         }
 
-        return correct;
+        return new AnswerResult(
+                correct,
+                selectedAnswers,
+                question.correctAnswerIndexes()
+        );
     }
 
     /**Формула для подсчета очков*/
-    private int calkScore(){
+    private int calcScore(){
         return 10;
     }
 
