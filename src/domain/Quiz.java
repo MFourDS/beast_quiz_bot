@@ -79,6 +79,13 @@ public class Quiz {
         status = QuizStatus.FINISHED;
     }
 
+    public void abort(){
+        if (status != QuizStatus.IN_PROGRESS)
+            throw new IllegalStateException("Quiz is not in progress");
+
+        status = QuizStatus.ABORTED;
+    }
+
     /**Функция проверяет ответ на вопрос.
      * Она создает копию текущего вопроса и сверят у него ответ.
      * Прибавляет очки за каждый правильный ответ
@@ -88,6 +95,9 @@ public class Quiz {
      * @return класс с правильным ответом и данными ответами
      */
     public AnswerResult submitAnswer(Set<Integer> selectedAnswers) {
+        if (selectedAnswers.isEmpty())
+            throw new IllegalArgumentException("Selected answers must not be Empty");
+
         if (status != QuizStatus.IN_PROGRESS) {
             throw new IllegalStateException("Quiz is not in progress");
         }
@@ -102,7 +112,7 @@ public class Quiz {
 
         return new AnswerResult(
                 correct,
-                selectedAnswers,
+                Set.copyOf(selectedAnswers),
                 question.correctAnswerIndexes()
         );
     }

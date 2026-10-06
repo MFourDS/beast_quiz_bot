@@ -12,16 +12,17 @@ import java.util.Set;
  */
 public record Question(int id, String text, List<String> answers, Set<Integer> correctAnswerIndexes) {
 
-    /** Создает вопрос и проверяет правильность ввода данных
+    /**
+     * Создает вопрос и проверяет правильность ввода данных
      *
      * @throws IllegalArgumentException если данные вопроса некорректны
      */
     public Question(int id, String text, List<String> answers, Set<Integer> correctAnswerIndexes) {
 
         if (id <= 0) throw new IllegalArgumentException("Question id is must be positive");
-        if (text.isBlank()) throw new IllegalArgumentException("Question text must not be blank");
-        if (answers.isEmpty()) throw new IllegalArgumentException("List of answers must not be empty");
-
+        if (text == null || text.isBlank()) throw new IllegalArgumentException("Question text must not be blank");
+        if (answers == null || answers.isEmpty()) throw new IllegalArgumentException("List of answers must not be empty");
+        if (correctAnswerIndexes == null || correctAnswerIndexes.isEmpty()) throw new IllegalArgumentException("Sert of correctAnswerIndexes must not be empty");
         for (int index : correctAnswerIndexes) {
             if (index < 0 || index >= answers.size()) {
                 throw new IllegalArgumentException(
@@ -56,7 +57,8 @@ public record Question(int id, String text, List<String> answers, Set<Integer> c
      * @throws IllegalArgumentException если индекс выходит за пределы списка answers
      */
     public boolean isCorrectAnswer(Set<Integer> ansIndexes) {
-        for (int index : correctAnswerIndexes) {
+        if (ansIndexes == null || ansIndexes.isEmpty()) throw new IllegalArgumentException("Sert of ansIndexes must not be empty");
+        for (int index : ansIndexes) {
             if (index < 0 || index >= answers.size()) {
                 throw new IllegalArgumentException(
                         "Correct answer index is out of range"

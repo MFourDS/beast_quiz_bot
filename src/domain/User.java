@@ -59,10 +59,19 @@ public class User {
     }
 
     public void setUsername(String username) {
+        if (username == null || username.isBlank())
+            throw new IllegalArgumentException("Username must not be Blank");
+
+        if (!username.startsWith("@"))
+            throw new IllegalArgumentException("Username must start with @");
+
         this.username = username;
     }
 
-    public void setSurname(String nickname) {
+    public void setNickname(String nickname) {
+        if (nickname == null || nickname.isBlank())
+            throw new IllegalArgumentException("Nickname must not be Blank");
+
         this.nickname = nickname;
     }
 

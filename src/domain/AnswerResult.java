@@ -13,4 +13,14 @@ public record AnswerResult(
         Set<Integer> selectedAnswers,
         Set<Integer> correctAnswers) {
 
+    @Override
+    public Set<Integer> selectedAnswers(){
+        return Set.copyOf(selectedAnswers);
+    }
+
+    @Override
+    public Set<Integer> correctAnswers(){
+        return Set.copyOf(correctAnswers);
+    }
+
 }
