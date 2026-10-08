@@ -35,7 +35,7 @@ public class Quiz {
      *
      * @throws IllegalArgumentException если список вопросов пустой
      */
-    Quiz(List<Question> questions) {
+    public Quiz(List<Question> questions) {
         if (questions.isEmpty()) throw new IllegalArgumentException("Question list is empty");
 
         this.questions = List.copyOf(questions);
